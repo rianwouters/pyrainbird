@@ -17,6 +17,7 @@ from pyrainbird.resources import (
 )
 from . import rainbird
 from .client import RainbirdClient
+from urllib3 import Retry
 
 
 class RainbirdController:
@@ -25,13 +26,10 @@ class RainbirdController:
         server,
         password,
         update_delay=20,
-        retry=3,
-        retry_sleep=10,
+        retry_strategy=Retry(3, backoff_factor=20),
         logger=logging.getLogger(__name__),
     ):
-        self.rainbird_client = RainbirdClient(
-            server, password, retry, retry_sleep, logger
-        )
+        self.client = RainbirdClient(server, password, retry_strategy)
         self.logger = logger
         self.zones = States()
         self.rain_sensor = None
@@ -171,7 +169,7 @@ class RainbirdController:
     def command(self, command, *args):
         data = rainbird.encode(command, *args)
         self.logger.debug("Request to line: " + str(data))
-        decrypted_data = self.rainbird_client.request(
+        decrypted_data = self.client.request(
             data,
             requests[command][
                 "length"

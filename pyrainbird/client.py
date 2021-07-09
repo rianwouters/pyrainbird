@@ -1,12 +1,14 @@
 import json
 import logging
-from time import time, sleep
+from time import time
 
-import requests
+from requests import Session
+from requests.adapters import HTTPAdapter
+from urllib3 import Retry
 
 from .encryption import encrypt, decrypt
 
-HEAD = {
+headers = {
     "Accept-Language": "en",
     "Accept-Encoding": "gzip, deflate",
     "User-Agent": "RainBird/2.0 CFNetwork/811.5.4 Darwin/16.7.0",
@@ -15,7 +17,8 @@ HEAD = {
     "Content-Type": "application/octet-stream",
 }
 
-def jsonrpc(id, data, length):    
+def jsonrpc(data, length, id = time()): 
+    id = time()
     return json.dumps({
         "id": id,
         "jsonrpc":"2.0",
@@ -31,49 +34,46 @@ class RainbirdClient:
         self,
         host,
         password,
-        retry=3,
-        retry_sleep=10,
+        retry_strategy=Retry(3, backoff_factor=20),
         logger=logging.getLogger(__name__),
     ):
         self.host = host
         self.password = password
-        self.retry = retry
-        self.retry_sleep = retry_sleep
         self.logger = logger
+        self.session = Session()
+        self.session.mount("http://", HTTPAdapter(max_retries=retry_strategy))
+
 
     def request(self, data, length):
-        msg = jsonrpc(time(), data, length)
-        for i in range(0, self.retry):
-            self.logger.debug(
-                f"Sending {msg} to {self.host}, {i + 1}. try."
+        msg = jsonrpc(data, length)
+        self.logger.debug(
+            f"Sending {msg} to {self.host}"
+        )
+        try:
+            resp = self.session.post(
+                f"http://{self.host}/stick",
+                encrypt(msg, self.password),
+                headers=headers,
+                timeout=20,
             )
-            try:
-                resp = requests.post(
-                    f"http://{self.host}/stick",
-                    encrypt(msg, self.password),
-                    headers=HEAD,
-                    timeout=20,
-                )
-            except Exception as e:
-                self.logger.warning("Unable to connect: %s" % e)
-                resp = None
 
             if resp is None:
-                self.logger.warning("Response not returned.")
-            elif resp.status_code != 200:
-                self.logger.warning(
-                    "Response: %d, %s" % (resp.status_code, resp.reason)
-                )
-            else:
-                decrypted_data = (
-                    decrypt(resp.content, self.password)
-                    .decode("UTF-8")
-                    .rstrip("\x10")
-                    .rstrip("\x0A")
-                    .rstrip("\x00")
-                    .rstrip()
-                )
-                self.logger.debug("Response: %s" % decrypted_data)
-                return json.loads(decrypted_data)["result"]["data"]
-            sleep(self.retry_sleep)
-            continue
+                raise Exception("No response returned.")
+
+            if resp.status_code != 200:
+                raise Exception(f"Response: {resp.status_code}, {resp.reason}")
+            
+            decrypted_data = (
+                decrypt(resp.content, self.password)
+                .decode("UTF-8")
+                .rstrip("\x10")
+                .rstrip("\x0A")
+                .rstrip("\x00")
+                .rstrip()
+            )
+            self.logger.debug(f"Response: {decrypted_data}")
+            return json.loads(decrypted_data)["result"]["data"]
+
+        except Exception as e:
+            raise Exception(f"Unable to connect: {e}")
+

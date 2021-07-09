@@ -42,6 +42,11 @@
 			"response": "92",
 			"length": 1
 		},
+		"Rian": {
+			"command": "31",
+			"response": "90",
+			"length": 1
+		},
 		"WaterBudget": {
 			"command": "30",
 			"parameter": 0,
