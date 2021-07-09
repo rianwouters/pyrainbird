@@ -27,9 +27,9 @@
 			"response": "8B",
 			"length": 1
 		},
-		"RianRequest": {
+		"UnknownRequest": {
 			"command": "0C",
-			"response": "8B",
+			"response": "00",
 			"length": 1
 		},
 		"CurrentTimeRequest": {
