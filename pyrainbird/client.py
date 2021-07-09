@@ -1,10 +1,10 @@
 import json
 import logging
-import time
+from time import time, sleep
 
 import requests
 
-from . import encryption
+from .encryption import encrypt, decrypt
 
 HEAD = {
     "Accept-Language": "en",
@@ -15,6 +15,16 @@ HEAD = {
     "Content-Type": "application/octet-stream",
 }
 
+def jsonrpc(id, data, length):    
+    return json.dumps({
+        "id": id,
+        "jsonrpc":"2.0",
+        "method":"tunnelSip",
+        "params": {
+            "data": data,
+            "length": length
+        }
+    })
 
 class RainbirdClient:
     def __init__(
@@ -25,27 +35,23 @@ class RainbirdClient:
         retry_sleep=10,
         logger=logging.getLogger(__name__),
     ):
+        self.host = host
+        self.password = password
         self.retry = retry
         self.retry_sleep = retry_sleep
         self.logger = logger
-        self.rainbird_server = host
-        self.rainbird_password = password
 
     def request(self, data, length):
-        request_id = time.time()
-        send_data = (
-            '{"id":%d,"jsonrpc":"2.0","method":"tunnelSip","params":{"data":"%s","length":%d}}'
-            % (request_id, data, length)
-        )
+        msg = jsonrpc(time(), data, length)
         for i in range(0, self.retry):
             self.logger.debug(
                 "Sending %s to %s, %d. try."
-                % (send_data, self.rainbird_server, i + 1)
+                % (msg, self.host, i + 1)
             )
             try:
                 resp = requests.post(
-                    "http://%s/stick" % self.rainbird_server,
-                    encryption.encrypt(send_data, self.rainbird_password),
+                    f"http://{self.host}/stick",
+                    encrypt(msg, self.password),
                     headers=HEAD,
                     timeout=20,
                 )
@@ -61,7 +67,7 @@ class RainbirdClient:
                 )
             else:
                 decrypted_data = (
-                    encryption.decrypt(resp.content, self.rainbird_password)
+                    decrypt(resp.content, self.password)
                     .decode("UTF-8")
                     .rstrip("\x10")
                     .rstrip("\x0A")
@@ -70,5 +76,5 @@ class RainbirdClient:
                 )
                 self.logger.debug("Response: %s" % decrypted_data)
                 return json.loads(decrypted_data)["result"]["data"]
-            time.sleep(self.retry_sleep)
+            sleep(self.retry_sleep)
             continue

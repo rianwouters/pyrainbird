@@ -6,4 +6,4 @@ from pkg_resources import resource_string
 
 # Changed in json version 3.9: The keyword argument encoding has been removed.
 # https://docs.python.org/3/library/json.html
-RAIBIRD_COMMANDS = json.loads(resource_string('pyrainbird.resources', 'sipcommands.json').decode("UTF-8"))
+COMMANDS = json.loads(resource_string(__name__, 'sip_messages.json').decode("UTF-8"))
