@@ -27,4 +27,4 @@ requests_log.addHandler(ch)
 controller = RainbirdController(
     os.environ["RAINBIRD_SERVER"], os.environ["RAINBIRD_PASSWORD"]
 )
-print("%s\n" % controller.command(sys.argv[1], *sys.argv[2:]))
+print(f"{controller.command(sys.argv[1], *sys.argv[2:])}\n")

@@ -22,14 +22,14 @@ encrypt = encryption.encrypt(
     '{"id":9,"jsonrpc":"2.0","method":"tunnelSip","params":{"data":"02","length":1}}',
     password,
 )
-print("%s\n" % encrypt)
+print(f"{encrypt}\n")
 
 decrypt = encryption.decrypt(encrypt, password)
 
-print("%s\n" % decrypt)
+print(f"{decrypt}\n")
 
 controller = RainbirdController(
     os.environ["RAINBIRD_SERVER"], os.environ["RAINBIRD_PASSWORD"]
 )
 
-print("%s\n" % controller.get_rain_delay())
+print(f"{controller.get_rain_delay()}\n")

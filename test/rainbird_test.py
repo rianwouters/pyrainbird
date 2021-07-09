@@ -6,21 +6,11 @@ from pyrainbird.rainbird import encode, decode
 
 
 def encode_name_func(testcase_func, param_num, param):
-    return "%s_%s_%s" % (
-        testcase_func.__name__,
-        param_num,
-        parameterized.to_safe_name(param.args[1]),
-    )
-
+    return f'{testcase_func.__name__}_{param_num}_{parameterized.to_safe_name(param.args[1])}'
 
 def decode_name_func(testcase_func, param_num, param):
-    return "%s_%s_%s" % (
-        testcase_func.__name__,
-        param_num,
-        parameterized.to_safe_name(param.args[0]["type"]),
-    )
-
-
+    return f'{testcase_func.__name__}_{param_num}_{parameterized.to_safe_name(param.args[0]["type"])}'
+    
 class TestSequence(unittest.TestCase):
     @parameterized.expand(
         [

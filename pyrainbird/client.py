@@ -45,8 +45,7 @@ class RainbirdClient:
         msg = jsonrpc(time(), data, length)
         for i in range(0, self.retry):
             self.logger.debug(
-                "Sending %s to %s, %d. try."
-                % (msg, self.host, i + 1)
+                f"Sending {msg} to {self.host}, {i + 1}. try."
             )
             try:
                 resp = requests.post(
