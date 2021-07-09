@@ -6,4 +6,6 @@ from pkg_resources import resource_string
 
 # Changed in json version 3.9: The keyword argument encoding has been removed.
 # https://docs.python.org/3/library/json.html
-COMMANDS = json.loads(resource_string(__name__, 'sip_messages.json').decode("UTF-8"))
+_sip_messages = json.loads(resource_string(__name__, 'sip_messages.json').decode("UTF-8"))
+requests = _sip_messages["requests"]
+responses = _sip_messages["responses"]

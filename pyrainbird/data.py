@@ -12,7 +12,7 @@ class Pageable(object):
         return isinstance(o, Pageable) and self.page == o.page
 
     def __ne__(self, o):
-        return not __eq__(o)
+        return not self.__eq__(o)
 
     def __str__(self):
         return "page: %d" % self.page
@@ -29,7 +29,7 @@ class Echo(object):
         return isinstance(o, Echo) and self.echo == o.echo
 
     def __ne__(self, o):
-        return not __eq__(o)
+        return not self.__eq__(o)
 
     def __str__(self):
         return "echo: %02X" % self.echo
@@ -48,7 +48,7 @@ class CommandSupport(Echo):
         )
 
     def __ne__(self, o):
-        return not __eq__(o)
+        return not self.__eq__(o)
 
     def __hash__(self):
         return hash((super(CommandSupport, self).__hash__(), self.support))
@@ -78,7 +78,7 @@ class ModelAndVersion(object):
         )
 
     def __ne__(self, o):
-        return not __eq__(o)
+        return not self.__eq__(o)
 
     def __str__(self):
         return "model: %04X, version: %d.%d" % (
@@ -115,7 +115,7 @@ class States(object):
         )
 
     def __ne__(self, o):
-        return not __eq__(o)
+        return not self.__eq__(o)
 
     def __str__(self):
         result = ()
@@ -140,7 +140,7 @@ class AvailableStations(Pageable):
         )
 
     def __ne__(self, o):
-        return not __eq__(o)
+        return not self.__eq__(o)
 
     def __str__(self):
         return "available stations: %X, %s" % (
@@ -165,7 +165,7 @@ class WaterBudget(object):
         )
 
     def __ne__(self, o):
-        return not __eq__(o)
+        return not self.__eq__(o)
 
     def __str__(self):
         return "water budget: program: %d, hi: %02X, lo: %02X" % (

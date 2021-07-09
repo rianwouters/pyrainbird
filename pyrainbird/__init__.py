@@ -11,7 +11,10 @@ from pyrainbird.data import (
     WaterBudget,
     _DEFAULT_PAGE,
 )
-from pyrainbird.resources import COMMANDS
+from pyrainbird.resources import (
+    responses,
+    requests
+)
 from . import rainbird
 from .client import RainbirdClient
 
@@ -49,7 +52,7 @@ class RainbirdController:
     def get_available_stations(self, page=_DEFAULT_PAGE):
         mask = (
             "%%0%dX"
-            % COMMANDS["responses"]["83"]["setStations"][
+            % responses["83"]["setStations"][
                 "length"
             ]
         )
@@ -170,7 +173,7 @@ class RainbirdController:
         self.logger.debug("Request to line: " + str(data))
         decrypted_data = self.rainbird_client.request(
             data,
-            COMMANDS["requests"]["%sRequest" % command][
+            requests[command][
                 "length"
             ],
         )
@@ -181,16 +184,14 @@ class RainbirdController:
         decoded = rainbird.decode(decrypted_data)
         if (
             decrypted_data[:2]
-            != COMMANDS["requests"]["%sRequest" % command][
+            != requests[command][
                 "response"
             ]
         ):
             raise Exception(
                 "Status request failed with wrong response! Requested %s but got %s:\n%s"
                 % (
-                    COMMANDS["requests"][
-                        "%sRequest" % command
-                    ]["response"],
+                    requests[command]["response"],
                     decrypted_data[:2],
                     decoded,
                 )
@@ -204,10 +205,8 @@ class RainbirdController:
             funct(response)
             if response is not None
             and response["type"]
-            == COMMANDS["responses"][
-                COMMANDS["requests"][cmd + "Request"][
-                    "response"
-                ]
+            == responses[
+                requests[cmd]["response"]
             ]["type"]
             else response
         )
@@ -215,7 +214,7 @@ class RainbirdController:
     def _update_irrigation_state(self, page=_DEFAULT_PAGE):
         mask = (
             "%%0%dX"
-            % COMMANDS["responses"]["BF"]["activeStations"][
+            % responses["BF"]["activeStations"][
                 "length"
             ]
         )

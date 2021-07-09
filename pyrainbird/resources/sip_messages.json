@@ -1,112 +1,112 @@
 {
 	"requests": {
-		"ModelAndVersionRequest": {
+		"ModelAndVersion": {
 			"command": "02",
 			"response": "82",
 			"length": 1
 		},
-		"AvailableStationsRequest": {
+		"AvailableStations": {
 			"command": "03",
 			"parameter": 0,
 			"response": "83",
 			"length": 2
 		},
-		"CommandSupportRequest": {
+		"CommandSupport": {
 			"command": "04",
 			"commandToTest": "02",
 			"response": "84",
 			"length": 2
 		},
-		"SerialNumberRequest": {
+		"SerialNumber": {
 			"command": "05",
 			"response": "85",
 			"length": 1
 		},
-		"FirmwareVersionRequest": {
+		"FirmwareVersion": {
 			"command": "0B",
 			"response": "8B",
 			"length": 1
 		},
-		"UnknownRequest": {
+		"Unknown": {
 			"command": "0C",
 			"response": "00",
 			"length": 1
 		},
-		"CurrentTimeRequest": {
+		"CurrentTime": {
 			"command": "10",
 			"response": "90",
 			"length": 1
 		},
-		"CurrentDateRequest": {
+		"CurrentDate": {
 			"command": "12",
 			"response": "92",
 			"length": 1
 		},
-		"WaterBudgetRequest": {
+		"WaterBudget": {
 			"command": "30",
 			"parameter": 0,
 			"response": "B0",
 			"length": 2
 		},
-		"ZonesSeasonalAdjustFactorRequest": {
+		"ZonesSeasonalAdjustFactor": {
 			"command": "32",
 			"parameter": 0,
 			"response": "B2",
 			"length": 2
 		},
-		"RainDelayGetRequest": {
+		"RainDelayGet": {
 			"command": "36",
 			"response": "B6",
 			"length": 1
 		},
-		"RainDelaySetRequest": {
+		"RainDelaySet": {
 			"command": "37",
 			"parameter": 0,
 			"response": "01",
 			"length": 3
 		},
-		"ManuallyRunProgramRequest": {
+		"ManuallyRunProgram": {
 			"command": "38",
 			"parameter": 0,
 			"response": "01",
 			"length": 2
 		},
-		"ManuallyRunStationRequest": {
+		"ManuallyRunStation": {
 			"command": "39",
 			"parameterOne": 0,
 			"parameterTwo": 0,
 			"response": "01",
 			"length": 4
 		},
-		"TestStationsRequest": {
+		"TestStations": {
 			"command": "3A",
 			"parameter": 0,
 			"response": "01",
 			"length": 2
 		},
-		"CurrentRainSensorStateRequest": {
+		"CurrentRainSensorState": {
 			"command": "3E",
 			"response": "BE",
 			"length": 1
 		},
-		"CurrentStationsActiveRequest": {
+		"CurrentStationsActive": {
 			"command": "3F",
 			"parameter": 0,
 			"response": "BF",
 			"length": 2
 		},
-		"StopIrrigationRequest": {
+		"StopIrrigation": {
 			"command": "40",
 			"response": "01",
 			"length": 1
 		},
-		"AdvanceStationRequest": {
+		"AdvanceStation": {
 			"command": "42",
 			"parameter": 0,
 			"response": "01",
 			"length": 2
 		},
-		"CurrentIrrigationStateRequest": {
+		"CurrentIrrigationState": {
 			"command": "48",
 			"response": "C8",
 			"length": 1
@@ -117,13 +117,13 @@
 			"response": "01",
 			"length": 2
 		},
-		"ControllerEventTimestampRequest": {
+		"ControllerEventTimestamp": {
 			"command": "4A",
 			"parameter": 0,
 			"response": "CA",
 			"length": 2
 		},
-		"StackManuallyRunStationRequest": {
+		"StackManuallyRunStation": {
 			"command": "4B",
 			"parameter": 0,
 			"parameterTwo": 0,
@@ -131,7 +131,7 @@
 			"response": "01",
 			"length": 4
 		},
-		"CombinedControllerStateRequest": {
+		"CombinedControllerState": {
 			"command": "4C",
 			"response": "CC",
 			"length": 1
@@ -140,7 +140,7 @@
 	"responses": {
 		"00": {
 			"length": 3,
-			"type": "NotAcknowledgeResponse",
+			"type": "NotAcknowledge",
 			"commandEcho": {
 				"position": 2,
 				"length": 2
@@ -152,7 +152,7 @@
 		},
 		"01": {
 			"length": 2,
-			"type": "AcknowledgeResponse",
+			"type": "Acknowledge",
 			"commandEcho": {
 				"position": 2,
 				"length": 2
@@ -160,7 +160,7 @@
 		},
 		"82": {
 			"length": 5,
-			"type": "ModelAndVersionResponse",
+			"type": "ModelAndVersion",
 			"modelID": {
 				"position": 2,
 				"length": 4
@@ -176,7 +176,7 @@
 		},
 		"83": {
 			"length": 6,
-			"type": "AvailableStationsResponse",
+			"type": "AvailableStations",
 			"pageNumber": {
 				"position": 2,
 				"length": 2
@@ -188,7 +188,7 @@
 		},
 		"84": {
 			"length": 3,
-			"type": "CommandSupportResponse",
+			"type": "CommandSupport",
 			"commandEcho": {
 				"position": 2,
 				"length": 2
@@ -200,7 +200,7 @@
 		},
 		"85": {
 			"length": 9,
-			"type": "SerialNumberResponse",
+			"type": "SerialNumber",
 			"serialNumber": {
 				"position": 2,
 				"length": 16
@@ -208,7 +208,7 @@
 		},
 		"8B": {
 			"length": 5,
-			"type": "FirmwareVersionResponse",
+			"type": "FirmwareVersion",
 			"Major version": {
 				"position": 2,
 				"length": 2
@@ -228,7 +228,7 @@
 		},
 		"90": {
 			"length": 4,
-			"type": "CurrentTimeResponse",
+			"type": "CurrentTime",
 			"hour": {
 				"position": 2,
 				"length": 2
@@ -244,7 +244,7 @@
 		},
 		"92": {
 			"length": 4,
-			"type": "CurrentDateResponse",
+			"type": "CurrentDate",
 			"day": {
 				"position": 2,
 				"length": 2
@@ -260,7 +260,7 @@
 		},
 		"B0": {
 			"length": 4,
-			"type": "WaterBudgetResponse",
+			"type": "WaterBudget",
 			"programCode": {
 				"position": 2,
 				"length": 2
@@ -272,7 +272,7 @@
 		},
 		"B2": {
 			"length": 18,
-			"type": "ZonesSeasonalAdjustFactorResponse",
+			"type": "ZonesSeasonalAdjustFactor",
 			"programCode": {
 				"position": 2,
 				"length": 2
@@ -284,7 +284,7 @@
 		},
 		"BE": {
 			"length": 2,
-			"type": "CurrentRainSensorStateResponse",
+			"type": "CurrentRainSensorState",
 			"sensorState": {
 				"position": 2,
 				"length": 2
@@ -292,7 +292,7 @@
 		},
 		"BF": {
 			"length": 6,
-			"type": "CurrentStationsActiveResponse",
+			"type": "CurrentStationsActive",
 			"pageNumber": {
 				"position": 2,
 				"length": 2
@@ -304,7 +304,7 @@
 		},
 		"B6": {
 			"length": 3,
-			"type": "RainDelaySettingResponse",
+			"type": "RainDelaySetting",
 			"delaySetting": {
 				"position": 2,
 				"length": 4
@@ -312,7 +312,7 @@
 		},
 		"C8": {
 			"length": 2,
-			"type": "CurrentIrrigationStateResponse",
+			"type": "CurrentIrrigationState",
 			"irrigationState": {
 				"position": 2,
 				"length": 2
@@ -320,7 +320,7 @@
 		},
 		"CA": {
 			"length": 6,
-			"type": "ControllerEventTimestampResponse",
+			"type": "ControllerEventTimestamp",
 			"eventId": {
 				"position": 2,
 				"length": 2
@@ -332,7 +332,7 @@
 		},
 		"CC": {
 			"length": 16,
-			"type": "CombinedControllerStateResponse",
+			"type": "CombinedControllerState",
 			"hour": {
 				"position": 2,
 				"length": 2

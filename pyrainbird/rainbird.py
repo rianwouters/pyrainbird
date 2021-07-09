@@ -1,9 +1,12 @@
-from pyrainbird.resources import COMMANDS
+from pyrainbird.resources import (
+    requests,
+    responses
+)
 
 
 def decode(data):
-    if data[:2] in COMMANDS["responses"]:
-        cmd_template = COMMANDS["responses"][data[:2]]
+    if data[:2] in responses:
+        cmd_template = responses[data[:2]]
         result = {"type": cmd_template["type"]}
         for k, v in cmd_template.items():
             if isinstance(v, dict) and "position" in v and "length" in v:
@@ -16,22 +19,21 @@ def decode(data):
 
 
 def encode(command, *args):
-    request_command = "%sRequest" % command
-    command_set = COMMANDS["requests"][request_command]
-    if request_command in COMMANDS["requests"]:
-        cmd_code = command_set["command"]
+    if command in requests:
+        request = requests[command]
+        cmd_code = request["command"]
     else:
         raise Exception(
             "Command %s not available. Existing commands: %s"
-            % (request_command, COMMANDS["requests"])
+            % (command, requests)
         )
-    if len(args) > command_set["length"] - 1:
+    if len(args) > request["length"] - 1:
         raise Exception(
             "Too much parameters. %d expected:\n%s"
-            % (command_set["length"] - 1, command_set)
+            % (request["length"] - 1, request)
         )
     params = (cmd_code,) + tuple(map(lambda x: int(x), args))
-    arg_placeholders = (("%%0%dX" % ((command_set["length"] - len(args)) * 2))
+    arg_placeholders = (("%%0%dX" % ((request["length"] - len(args)) * 2))
                         if len(args) > 0
                         else "") + ("%02X" * (len(args) - 1))
     return ("%s" + arg_placeholders) % (params)
