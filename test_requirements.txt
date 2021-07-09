@@ -7,7 +7,6 @@ pytest-flakes
 pytest-mccabe
 pytest-pep8
 pytest-mock
-pytest-responses
 pytest
 six
 requests
