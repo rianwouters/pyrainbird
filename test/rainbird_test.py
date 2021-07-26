@@ -2,7 +2,7 @@ import unittest
 
 from parameterized import parameterized
 
-from pyrainbird.rainbird import encode, decode
+from rainbird.rainbird import encode, decode
 
 
 def encode_name_func(testcase_func, param_num, param):
@@ -41,16 +41,16 @@ class TestSequence(unittest.TestCase):
         [
             [
                 {
-                    "type": "NotAcknowledgeResponse",
+                    "type": "NotAcknowledge",
                     "commandEcho": 2,
                     "NAKCode": 3,
                 },
                 "000203",
             ],
-            [{"type": "AcknowledgeResponse", "commandEcho": 6}, "0106"],
+            [{"type": "Acknowledge", "commandEcho": 6}, "0106"],
             [
                 {
-                    "type": "ModelAndVersionResponse",
+                    "type": "ModelAndVersion",
                     "modelID": 6,
                     "protocolRevisionMajor": 9,
                     "protocolRevisionMinor": 12,
@@ -59,7 +59,7 @@ class TestSequence(unittest.TestCase):
             ],
             [
                 {
-                    "type": "AvailableStationsResponse",
+                    "type": "AvailableStations",
                     "pageNumber": 15,
                     "setStations": 16,
                 },
@@ -67,19 +67,19 @@ class TestSequence(unittest.TestCase):
             ],
             [
                 {
-                    "type": "CommandSupportResponse",
+                    "type": "CommandSupport",
                     "commandEcho": 0x82,
                     "support": 1,
                 },
                 "848201",
             ],
             [
-                {"type": "SerialNumberResponse", "serialNumber": 0x8963},
+                {"type": "SerialNumber", "serialNumber": 0x8963},
                 "850000000000008963",
             ],
             [
                 {
-                    "type": "CurrentTimeResponse",
+                    "type": "CurrentTime",
                     "hour": 12,
                     "minute": 54,
                     "second": 35,
@@ -88,7 +88,7 @@ class TestSequence(unittest.TestCase):
             ],
             [
                 {
-                    "type": "CurrentDateResponse",
+                    "type": "CurrentDate",
                     "day": 18,
                     "month": 11,
                     "year": 2018,
@@ -97,31 +97,31 @@ class TestSequence(unittest.TestCase):
             ],
             [
                 {
-                    "type": "WaterBudgetResponse",
+                    "type": "WaterBudget",
                     "programCode": 3,
                     "seasonalAdjust": 0x83,
                 },
                 "B0030083",
             ],
             [
-                {"type": "CurrentRainSensorStateResponse", "sensorState": 1},
+                {"type": "CurrentRainSensorState", "sensorState": 1},
                 "BE01",
             ],
             [
                 {
-                    "type": "CurrentStationsActiveResponse",
+                    "type": "CurrentStationsActive",
                     "pageNumber": 1,
                     "activeStations": 0b00010000000000000000000000000000,
                 },
                 "BF0110000000",
             ],
             [
-                {"type": "RainDelaySettingResponse", "delaySetting": 3},
+                {"type": "RainDelaySetting", "delaySetting": 3},
                 "B60003",
             ],
             [
                 {
-                    "type": "CurrentIrrigationStateResponse",
+                    "type": "CurrentIrrigationState",
                     "irrigationState": 1,
                 },
                 "C801",

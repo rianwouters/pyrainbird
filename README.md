@@ -20,7 +20,7 @@ On the bottom of the module is some test code. Feel free te test it with your ow
 ```python
 
 # Test for controller
-from pyrainbird import RainbirdController
+from rainbird import Controller
 import time
 import logging
 
@@ -35,7 +35,7 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 ch.setFormatter(formatter)
 _LOGGER.addHandler(ch)
 
-controller = RainbirdController("####IP#####","####PASS#####")
+controller = Controller("####IP#####","####PASS#####")
 controller.irrigate_zone(4,5)
 time.sleep(4)
 controller.stop_irrigation()

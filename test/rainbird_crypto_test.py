@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-import sys
 
-from pyrainbird import RainbirdController
+from rainbird import encryption, Controller
 import logging
 import os
 
@@ -18,13 +17,19 @@ formatter = logging.Formatter(
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-logging.getLogger().setLevel(logging.DEBUG)
-requests_log = logging.getLogger("http.client")
-requests_log.setLevel(logging.DEBUG)
-requests_log.propagate = True
-requests_log.addHandler(ch)
+password = "somepassword123"
+encrypt = encryption.encrypt(
+    '{"id":9,"jsonrpc":"2.0","method":"tunnelSip","params":{"data":"02","length":1}}',
+    password,
+)
+print(f"{encrypt}\n")
 
-controller = RainbirdController(
+decrypt = encryption.decrypt(encrypt, password)
+
+print(f"{decrypt}\n")
+
+controller = Controller(
     os.environ["RAINBIRD_SERVER"], os.environ["RAINBIRD_PASSWORD"]
 )
-print(f"{controller.command(sys.argv[1], *sys.argv[2:])}\n")
+
+print(f"{controller.get_rain_delay()}\n")

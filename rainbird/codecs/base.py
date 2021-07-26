@@ -1,6 +1,9 @@
+from logging import getLogger
+
 class CodecBase:
-    def __init__(self, child=None):
+    def __init__(self, child):
         self.child = child
+        self.logger = getLogger(self.__class__.__name__)
 
     def __call__(self, data): 
         coded = self._code(data)

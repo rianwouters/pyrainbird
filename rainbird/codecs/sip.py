@@ -1,4 +1,4 @@
-from pyrainbird.codec_base import CodecBase
+from .base import CodecBase
 
 
 class SipBase(CodecBase):
@@ -20,7 +20,7 @@ class SipDecoder(SipBase):
     def _code(self, data):
         id = int(data[:2], 16)
         tpl = self.get(id).get("template", {})
-        return {k: int(data[v[0] : v[1]], 16) for k, v in tpl.items()}
+        return {"id": id} | {k: int(data[v[0] : v[1]], 16) for k, v in tpl.items()}
 
 
 class SipEncoder(SipBase):
@@ -35,22 +35,3 @@ class SipEncoder(SipBase):
             raise Exception(f"Expected {l - 1} parameters")
         params = list(map(lambda x: int(x), data))
         return ("{:02X}" * l).format(*params)
-
-
-class TunnelSipEncoder(CodecBase):
-    def __init__(self, child=None):
-        super().__init__(child)
-
-    def _code(self, data):
-        return {
-            "method": "tunnelSip",
-            "params": {"data": data, "length": len(data) // 2},
-        }
-
-
-class TunnelSipDecoder(CodecBase):
-    def __init__(self, child=None):
-        super().__init__(child)
-
-    def _code(self, data):
-        return data["data"]

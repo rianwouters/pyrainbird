@@ -4,7 +4,7 @@ from Crypto import Random
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 
-from .codec_base import CodecBase
+from .base import CodecBase
 
 BLOCK_SIZE = 16
 INTERRUPT = "\x00"

@@ -37,9 +37,9 @@ setup(
     install_requires=requirements,
     tests_require=test_requirements,
     # The project's main homepage.
-    url="https://github.com/jbarrancos/pyrainbird/",
+    url="https://github.com/rianwouters/pyrainbird/",
     # Author details
-    author="J.J.Barrancos",
+    author="J.J.Barrancos, Rian Wouters",
     author_email="jordy@fusion-ict.nl",
     license="MIT",
     keywords=["Rain Bird"],
