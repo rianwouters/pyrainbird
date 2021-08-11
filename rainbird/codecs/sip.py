@@ -8,9 +8,9 @@ class SipBase(CodecBase):
 
     def get(self, id):
         msg = self.messages.get(id)
-        if not msg:
-            raise Exception(f"Unknown SIP message id ({id})")
-        return msg
+        if msg:
+            return msg
+        raise Exception(f"Unknown SIP message id ({id})")
 
 
 class SipDecoder(SipBase):
@@ -20,7 +20,9 @@ class SipDecoder(SipBase):
     def _code(self, data):
         id = int(data[:2], 16)
         tpl = self.get(id).get("template", {})
-        return {"id": id} | {k: int(data[v[0] : v[1]], 16) for k, v in tpl.items()}
+        return {"id": id} | {
+            k: int(data[v[0] : v[1]], 16) for k, v in tpl.items() if v[1] <= len(data)
+        }
 
 
 class SipEncoder(SipBase):
@@ -28,7 +30,7 @@ class SipEncoder(SipBase):
         super().__init__(messages, child)
 
     def _code(self, data):
-        id = int(data[0])
+        id = data[0]
         msg = self.get(id)
         l = msg["length"]
         if len(data) != l:
