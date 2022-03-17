@@ -2,7 +2,7 @@ import unittest
 
 from parameterized import parameterized
 
-from pyrainbird import States
+from rainbird import States
 
 
 def encode_name_func(testcase_func, param_num, param):
